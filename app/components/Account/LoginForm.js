@@ -1,50 +1,41 @@
 import React, {useState} from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Input, Icon, Button } from 'react-native-elements';
-
-import { validateEmail } from '../../utils/validations';
-import Loading from '../Loading';
-
-import { size, isEmpty } from 'lodash';
-
+import {isEmpty} from 'lodash';
+import {useNavigation} from '@react-navigation/native';
 import * as firebase from 'firebase';
 
-import {useNavigation} from '@react-navigation/native';
+import {validateEmail} from '../../utils/validations';
+import Loading from '../Loading';
 
-export default function RegisterForm(props) {
-    const {toastRef} = props;
+export default function LoginForm(props){
+    const {toastRef} = props
 
     const [showPassword, setShowPassword] = useState(false)
-    const [showPassword2, setShowPassword2] = useState(false)
     const [formData, setFormData] = useState(defaultFormValue())
     const [loading, setLoading] = useState(false)
 
     const navigation = useNavigation();
 
-    const onSubmit = () => {
-        if(isEmpty(formData.email) || isEmpty(formData.password) || isEmpty(formData.repeatPassword)) {
-            toastRef.current.show("Todos los campos son obligatorios")
-        } else if(!validateEmail(formData.email)) {
-            toastRef.current.show("Email no valido")
-        } else if(formData.password !== formData.repeatPassword){
-            toastRef.current.show("Las contraseñas deben ser iguales")
-        } else if(size(formData.password) < 6) {
-            toastRef.current.show("La contraseña debe tener más de 6 caracteres")
-        } else {
-            setLoading(true)
-            firebase.auth().createUserWithEmailAndPassword(formData.email, formData.password).then(response => {
-                setLoading(false)
-                navigation.navigate("account");
-            }).catch(( ) => {
-                setLoading(false)
-                toastRef.current.show("El email ya está en uso. Pruebe de nuevo")
-            })
-        }
+    const onChange = (e, type) => {
+        setFormData({...formData, [type]: e.nativeEvent.text})
     }
 
-    const onChange = (e, type) => {
-        /* "...formData" es para traer el valor que tuviera el objeto formData, y asi no sobreescribirlo con el nuevo valor, sino añadirlo */
-        setFormData({ ...formData, [type]: e.nativeEvent.text })
+    const onSubmit = () => {
+        if(isEmpty(formData.email) || isEmpty(formData.password)) {
+            toastRef.current.show("Todos los campos son obligatorios")
+        } else if(!validateEmail(formData.email)) {
+            toastRef.current.show("No existe un usuario con ese correo electrónico")
+        } else {
+            setLoading(true)
+            firebase.auth().signInWithEmailAndPassword(formData.email, formData.password).then(() => {
+                setLoading(false)
+                navigation.navigate("account")
+            }).catch(() => {
+                setLoading(false)
+                toastRef.current.show("Email o contraseña incorrectas")
+            })
+        }
     }
 
     return (
@@ -76,28 +67,13 @@ export default function RegisterForm(props) {
                     />
                 }
             />
-            <Input 
-                placeholder="Repetir contraseña"
-                containerStyle={styles.inputForm}
-                onChange={e => onChange(e, "repeatPassword")}
-                password={true}
-                secureTextEntry={showPassword2 ? false : true}
-                rightIcon={
-                    <Icon 
-                        type="material-community"
-                        name={showPassword2 ? "eye-off-outline" : "eye-outline"}
-                        iconStyle={styles.iconRight}
-                        onPress={() => setShowPassword2(!showPassword2)}
-                    />
-                }
-            />
             <Button 
-                title="Unirse"
-                containerStyle={styles.btnContainerRegister}
-                buttonStyle={styles.btnRegister}
+                title="Iniciar sesión"
+                containerStyle={styles.btnContainerLogin}
+                buttonStyle={styles.btnLogin}
                 onPress={onSubmit}
             />
-            <Loading isVisible={loading} text="Creando cuenta"/>
+            <Loading isVisible={loading} text="Iniciando sesión"/>
         </View>
     )
 }
@@ -105,8 +81,7 @@ export default function RegisterForm(props) {
 function defaultFormValue() {
     return{
         email: "",
-        password: "",
-        repeatPassword: ""
+        password: ""
     }
 }
 
@@ -121,11 +96,11 @@ const styles = StyleSheet.create({
         width: "100%",
         marginTop: 20
     },
-    btnContainerRegister: {
+    btnContainerLogin: {
         marginTop: 20,
         width: "95%"
     },
-    btnRegister: {
+    btnLogin: {
         backgroundColor: "#00a680"
     },
     iconRight: {

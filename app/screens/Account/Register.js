@@ -1,10 +1,14 @@
-import React from 'react';
-import { StyleSheet, View, Text, Image } from 'react-native';
+import React, {useRef} from 'react';
+import { StyleSheet, View, Image } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import Toast from 'react-native-easy-toast';
 
 import RegisterForm from '../../components/Account/RegisterForm';
 
 export default function Register() {
+    /* Para hacer una referencia de un elemento hay que utilizar useRef */
+    const toastRef = useRef();
+
     return (
         <KeyboardAwareScrollView>
             <Image 
@@ -14,8 +18,12 @@ export default function Register() {
             />
         
             <View style={styles.viewForm}>
-                <RegisterForm />
+                {/* Le pasamos por los props la referencia al Toast */}
+                <RegisterForm toastRef={toastRef}/>
             </View>
+
+            {/* Es necesario utilizar useRef ya que se va a hacer referencia a este elemento desde otro componente (RegisterForm.js) */}
+            <Toast ref={toastRef} position="center" opacity={0.9} />
         </KeyboardAwareScrollView>
     )
 }
