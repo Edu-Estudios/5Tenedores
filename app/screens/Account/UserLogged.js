@@ -7,11 +7,12 @@ import * as firebase from 'firebase';
 
 import Loading from '../../components/Loading';
 import InfoUser from '../../components/Account/InfoUser';
+import AccountOptions from '../../components/Account/AccountOptions';
 
 export default function UserLogged() {
     const [userInfo, setUserInfo] = useState(null)
     const [loading, setLoading] = useState(false)
-    const [loadingText, setToadingText] = useState("")
+    const [loadingText, setLoadingText] = useState("")
 
     const toastRef = useRef();
 
@@ -27,8 +28,13 @@ export default function UserLogged() {
     return(
         <View style={styles.viewUserInfo}>
             {/* Si userInfo tiene datos entonces renderiza el componente InfoUser */}
-            {userInfo && <InfoUser userInfo={userInfo}/>}
-            <Text>Account options</Text>
+            {userInfo && <InfoUser 
+                userInfo={userInfo} 
+                toastRef={toastRef}
+                setLoading={setLoading}
+                setLoadingText={setLoadingText}
+            />}
+            <AccountOptions userInfo={userInfo} toastRef={toastRef}/>
             <Button 
                 title="Cerrar sesión" 
                 buttonStyle={styles.btnCloseSession}
