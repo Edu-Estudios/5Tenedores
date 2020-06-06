@@ -1,38 +1,45 @@
 {
-    "expo": {
-        "name": "5Tenedores",
-        "slug": "5Tenedores",
-        "platforms": [
-            "ios",
-            "android",
-            "web"
-        ],
-        "version": "1.0.0",
-        "orientation": "portrait",
-        "icon": "./assets/icon.png",
-        "splash": {
-            "image": "./assets/splash.png",
-            "resizeMode": "contain",
-            "backgroundColor": "#ffffff"
-        },
-        "updates": {
-            "fallbackToCacheTimeout": 0
-        },
-        "assetBundlePatterns": [
-            "**/*"
-        ],
-        "ios": {
-            "supportsTablet": true
-        },
-        "android": {
-            "package": "com.emartinl.cincotenedores",
-            "config": {
-                "googleMaps": {
-                    "apiKey": "AIzaSyDr2asJVqJdlgEMLyvVh_9EwpGW_G1xjco"
-                }
-            },
-            "permissions": ["CAMERA_ROLL", "READ_EXTERNAL_STORAGE", "WRITE_EXTERNAL_STORAGE", "LOCATION", "ACCESS_COARSE_LOCATION", "ACCESS_FINE_LOCATION"]
-        },
-        "description": ""
-    }
+  "expo": {
+    "name": "5Tenedores",
+    "slug": "5Tenedores",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#00a680"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "package": "com.emartinl.cincotenedores",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyDr2asJVqJdlgEMLyvVh_9EwpGW_G1xjco"
+        }
+      },
+      "permissions": [
+        "CAMERA_ROLL",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE",
+        "LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION"
+      ]
+    },
+    "description": ""
+  }
 }
